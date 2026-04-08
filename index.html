@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Farewell - Dynami Eterious SMAN 3 Tarutung</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <style>
+        :root { --gold: #D4AF37; --dark-gold: #996515; --cream: #FDFBF7; --dark: #1A1A1A; }
+        body { background-color: var(--cream); color: var(--dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        
+        /* Opening Overlay */
+        #opening-overlay {
+            position: fixed; inset: 0; background: var(--dark); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .envelope-card {
+            background: var(--cream); padding: 3rem; text-align: center;
+            border: 1px solid var(--gold); box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 400px; width: 90%;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Particle Canvas */
+        #canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
+        
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .title-cinzel { font-family: 'Cinzel', serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        #music-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 100;
+            background: var(--dark-gold); width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="music-btn" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+    <audio id="bg-audio" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/01/24/audio_924f0c7674.mp3?filename=tender-piano-10141.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="opening-overlay">
+        <div class="envelope-card" data-aos="zoom-in">
+            <h3 class="title-cinzel text-xs tracking-[0.3em] mb-4">You're Invited</h3>
+            <h1 class="font-cursive text-5xl mb-6 text-[var(--dark-gold)]">A Special Delivery</h1>
+            <p class="text-[10px] uppercase tracking-widest mb-10 opacity-60">Untuk Kakak Alumni SMAN 3 Tarutung</p>
+            <button onclick="openInvitation()" class="bg-[#2C2A29] text-white px-8 py-3 title-cinzel text-xs tracking-[0.2em] hover:bg-gold transition-all">
+                BUKA UNDANGAN
+            </button>
+        </div>
+    </div>
+
+    <header class="min-h-screen flex items-center justify-center text-center px-4 relative">
+        <div data-aos="fade-up">
+            <p class="title-cinzel text-sm tracking-[0.5em] mb-4 opacity-70">FAREWELL PARTY</p>
+            <h1 class="font-playfair text-6xl md:text-8xl font-bold gold-gradient-text">Dynami Eterious</h1>
+            <p class="font-cursive text-3xl md:text-5xl text-[var(--dark-gold)] mt-4">Angkatan 11</p>
+            <p class="mt-12 title-cinzel tracking-[0.4em] text-xs opacity-50 uppercase">SMA Negeri 3 Tarutung</p>
+        </div>
+    </header>
+
+    <section class="py-24 px-6">
+        <div class="max-w-3xl mx-auto border border-stone-200 p-10 md:p-20 bg-white shadow-xl text-center relative" data-aos="fade-up">
+            <h2 class="font-cursive text-5xl mb-8 text-[var(--dark-gold)]">Salam Hangat,</h2>
+            <div class="space-y-6 text-lg font-light leading-relaxed text-stone-700 font-playfair italic">
+                <p class="font-bold text-stone-900 not-italic title-cinzel text-base">Yth. Kakak Alumni,</p>
+                <p>Dalam setiap langkah perjalanan kami di sekolah tercinta ini, ada jejak cerita yang ditinggalkan oleh Kakak-kakak semua.</p>
+                <p>Seiring tibanya hari perpisahan kami, kami sangat berharap kehadiran Kakak untuk merayakan momen ini bersama.</p>
+                <p>Kehadiran Kakak adalah saksi sejarah dan pemberi semangat bagi kami untuk melangkah ke babak baru.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[#1A1A1A] text-white text-center">
+        <div class="max-w-4xl mx-auto px-6" data-aos="fade-up">
+            <h3 class="title-cinzel text-2xl mb-12 gold-gradient-text tracking-[0.3em]">WAKTU & TEMPAT</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <p class="text-gold text-xs tracking-widest mb-2 uppercase">Hari / Tanggal</p>
+                    <p class="text-xl font-playfair">Kamis, 16 April 2026</p>
+                </div>
+                <div>
+                    <p class="text-gold text-xs tracking-widest mb-2 uppercase">Waktu</p>
+                    <p class="text-xl font-playfair">08.00 WIB - Selesai</p>
+                </div>
+                <div>
+                    <p class="text-gold text-xs tracking-widest mb-2 uppercase">Lokasi</p>
+                    <p class="text-xl font-playfair">Lapangan SMAN 3 Tarutung</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 text-center">
+        <div class="max-w-2xl mx-auto" data-aos="fade-up">
+            <i class="fa fa-quote-left text-gold opacity-30 text-4xl mb-6"></i>
+            <p class="font-playfair text-2xl md:text-3xl italic leading-relaxed text-stone-600">
+                "Perpisahan bukanlah akhir dari segalanya, melainkan awal dari sebuah kerinduan yang baru."
+            </p>
+            <div class="w-16 h-[1px] bg-gold mx-auto mt-8 mb-8"></div>
+            <p class="title-cinzel text-xs tracking-widest opacity-60">DYNAMI ETERIOUS 11</p>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-stone-200 text-center opacity-50">
+        <p class="title-cinzel text-[10px] tracking-[0.4em]">&copy; 2026 SMAN 3 TARUTUNG</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        function openInvitation() {
+            document.getElementById('opening-overlay').style.transform = 'translateY(-100%)';
+            document.body.style.overflow = 'auto';
+            toggleMusic(true);
+        }
+
+        let isPlaying = false;
+        const audio = document.getElementById('bg-audio');
+        function toggleMusic(forcePlay = false) {
+            if (!isPlaying || forcePlay) { audio.play(); isPlaying = true; document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>'; }
+            else { audio.pause(); isPlaying = false; document.getElementById('music-btn').innerHTML = '<i class="fas fa-music"></i>'; }
+        }
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2; this.speedY = Math.random() * 0.4 + 0.1;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() { this.y += this.speedY; if (this.y > canvas.height) this.y = -10; }
+            draw() { ctx.fillStyle = rgba(212, 175, 55, ${this.opacity}); ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        function setup() { for (let i = 0; i < 50; i++) particles.push(new Particle()); }
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        window.addEventListener('resize', initCanvas);
+        initCanvas(); setup(); animate();
+        document.body.style.overflow = 'hidden';
+    </script>
+</body>
+</html>
