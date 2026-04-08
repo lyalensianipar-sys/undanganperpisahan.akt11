@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Farewell - Dynami Eterious SMAN 3 Tarutung</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://tailwindcss.com"></script>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
         :root { --gold: #D4AF37; --dark-gold: #996515; --cream: #FDFBF7; --dark: #1A1A1A; }
@@ -51,12 +51,14 @@
     <canvas id="canvas"></canvas>
 
     <div id="music-btn" onclick="toggleMusic()">
-        <i class="fas fa-music"></i>
+        <i class="fas fa-music" id="music-icon"></i>
     </div>
+    
     <audio id="bg-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/01/24/audio_924f0c7674.mp3?filename=tender-piano-10141.mp3" type="audio/mpeg">
+        <source src="https://pixabay.com" type="audio/mpeg">
     </audio>
 
+    <!-- Overlay Awal -->
     <div id="opening-overlay">
         <div class="envelope-card" data-aos="zoom-in">
             <h3 class="title-cinzel text-xs tracking-[0.3em] mb-4">You're Invited</h3>
@@ -68,6 +70,7 @@
         </div>
     </div>
 
+    <!-- Header / Hero Section -->
     <header class="min-h-screen flex items-center justify-center text-center px-4 relative">
         <div data-aos="fade-up">
             <p class="title-cinzel text-sm tracking-[0.5em] mb-4 opacity-70">FAREWELL PARTY</p>
@@ -77,6 +80,7 @@
         </div>
     </header>
 
+    <!-- Sambutan -->
     <section class="py-24 px-6">
         <div class="max-w-3xl mx-auto border border-stone-200 p-10 md:p-20 bg-white shadow-xl text-center relative" data-aos="fade-up">
             <h2 class="font-cursive text-5xl mb-8 text-[var(--dark-gold)]">Salam Hangat,</h2>
@@ -89,26 +93,28 @@
         </div>
     </section>
 
+    <!-- Info Acara -->
     <section class="py-20 bg-[#1A1A1A] text-white text-center">
         <div class="max-w-4xl mx-auto px-6" data-aos="fade-up">
             <h3 class="title-cinzel text-2xl mb-12 gold-gradient-text tracking-[0.3em]">WAKTU & TEMPAT</h3>
             <div class="grid md:grid-cols-3 gap-8">
                 <div>
                     <p class="text-gold text-xs tracking-widest mb-2 uppercase">Hari / Tanggal</p>
-                    <p class="text-xl font-playfair">Kamis, 16 April 2026</p>
+                    <p class="text-xl font-playfair text-stone-300">Kamis, 16 April 2026</p>
                 </div>
                 <div>
                     <p class="text-gold text-xs tracking-widest mb-2 uppercase">Waktu</p>
-                    <p class="text-xl font-playfair">08.00 WIB - Selesai</p>
+                    <p class="text-xl font-playfair text-stone-300">08.00 WIB - Selesai</p>
                 </div>
                 <div>
                     <p class="text-gold text-xs tracking-widest mb-2 uppercase">Lokasi</p>
-                    <p class="text-xl font-playfair">Lapangan SMAN 3 Tarutung</p>
+                    <p class="text-xl font-playfair text-stone-300">Lapangan SMAN 3 Tarutung</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Quote -->
     <section class="py-32 px-6 text-center">
         <div class="max-w-2xl mx-auto" data-aos="fade-up">
             <i class="fa fa-quote-left text-gold opacity-30 text-4xl mb-6"></i>
@@ -124,40 +130,92 @@
         <p class="title-cinzel text-[10px] tracking-[0.4em]">&copy; 2026 SMAN 3 TARUTUNG</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Scripts -->
+    <script src="https://cloudflare.com"></script>
     <script>
+        // Inisialisasi Animasi AOS
         AOS.init({ duration: 1000, once: true });
+
+        // Fungsi Buka Undangan
         function openInvitation() {
             document.getElementById('opening-overlay').style.transform = 'translateY(-100%)';
             document.body.style.overflow = 'auto';
             toggleMusic(true);
         }
 
+        // Pengaturan Musik
         let isPlaying = false;
         const audio = document.getElementById('bg-audio');
+        const musicIcon = document.getElementById('music-icon');
+
         function toggleMusic(forcePlay = false) {
-            if (!isPlaying || forcePlay) { audio.play(); isPlaying = true; document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>'; }
-            else { audio.pause(); isPlaying = false; document.getElementById('music-btn').innerHTML = '<i class="fas fa-music"></i>'; }
+            if (!isPlaying || forcePlay) { 
+                audio.play().catch(e => console.log("Autoplay dicegah browser")); 
+                isPlaying = true; 
+                musicIcon.classList.replace('fa-music', 'fa-pause');
+            } else { 
+                audio.pause(); 
+                isPlaying = false; 
+                musicIcon.classList.replace('fa-pause', 'fa-music');
+            }
         }
 
+        // Efek Partikel Emas (Canvas)
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2; this.speedY = Math.random() * 0.4 + 0.1;
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedY = Math.random() * 0.5 + 0.2;
                 this.opacity = Math.random() * 0.5;
             }
-            update() { this.y += this.speedY; if (this.y > canvas.height) this.y = -10; }
-            draw() { ctx.fillStyle = rgba(212, 175, 55, ${this.opacity}); ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+            update() {
+                this.y += this.speedY;
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-        function setup() { for (let i = 0; i < 50; i++) particles.push(new Particle()); }
-        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-        window.addEventListener('resize', initCanvas);
-        initCanvas(); setup(); animate();
-        document.body.style.overflow = 'hidden';
+
+        function setupParticles() {
+            initCanvas();
+            particles = [];
+            for (let i = 0; i < 60; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', setupParticles);
+        setupParticles();
+        animate();
     </script>
 </body>
 </html>
